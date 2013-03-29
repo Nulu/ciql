@@ -10,8 +10,8 @@ Gem::Specification.new do |s|
   s.authors       = ['Justin Bradford']
   s.email         = ['justin@nulu.com']
   s.homepage      = 'https://github.com/nulu/ciql'
-  s.summary       = %q{CQL Cassandra client}
-  s.description   = %q{A CQL-based Cassandra client}
+  s.summary       = %q{CQL Cassandra client for Ruby}
+  s.description   = %q{A CQL-based Cassandra client for Ruby}
   s.license       = 'Apache'
 
   s.files         = Dir['lib/**/*.rb', 'README.md']
