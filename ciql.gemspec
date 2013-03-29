@@ -8,8 +8,8 @@ Gem::Specification.new do |s|
   s.name          = 'ciql'
   s.version       = Ciql::VERSION.dup
   s.authors       = ['Justin Bradford']
-  s.email         = ['justin@etcland.com']
-  s.homepage      = 'http://github.com/jabr/ciql'
+  s.email         = ['justin@nulu.com']
+  s.homepage      = 'https://github.com/nulu/ciql'
   s.summary       = %q{CQL Cassandra client}
   s.description   = %q{A CQL-based Cassandra client}
   s.license       = 'Apache'
