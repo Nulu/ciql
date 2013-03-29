@@ -6,7 +6,7 @@ module Ciql
 
   def self.configure(&block)
     @@client.shutdown! if @@client
-    yield configuration = Configuration.new
+    yield (configuration = Configuration.new)
     @@client = Client.new(configuration.to_options)
   end
 
@@ -18,6 +18,7 @@ module Ciql
 
     def to_options
       all = [host].concat(hosts).compact.reject(&:empty?)
+      self.hosts = []
       self.host = all.join(',') unless all.empty?
       self
     end
