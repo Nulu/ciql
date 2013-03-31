@@ -2,6 +2,16 @@ require 'spec_helper'
 
 module Ciql
   describe '.client' do
+    after(:each) do
+      Ciql.class_variable_set(:@@client, nil)
+    end
+
+    let(:reactor) { FakeReactor.new }
+
+    before(:each) do
+      Cql::Io::IoReactor.stub(:new).and_return(reactor)
+    end
+
     it 'defaults to nil' do
       Ciql.client.should be_nil
     end
@@ -10,9 +20,26 @@ module Ciql
       Ciql.configure {}
       Ciql.client.should be_instance_of Ciql::Client
     end
+
+    it 'starts the client when first requested' do
+      client = Ciql.configure {}
+      client.should_receive(:start!)
+      Ciql.client
+    end
+
+    it 'does not try to start the client on subsequent requests' do
+      client = Ciql.configure {}
+      Ciql.client
+      client.should_not_receive(:start!)
+      Ciql.client
+    end
   end
 
   describe '.configure' do
+    after(:each) do
+      Ciql.class_variable_set(:@@client, nil)
+    end
+
     it 'yields a Configuration instance' do
       Ciql.configure do |c|
         c.should be_instance_of Ciql::Configuration
@@ -31,6 +58,12 @@ module Ciql
       config = Ciql::Configuration.new
       Ciql::Configuration.should_receive(:new).and_return(config)
       Ciql::Client.should_receive(:new).with(config)
+      Ciql.configure {}
+    end
+
+    it 'shutdowns the current client, if present' do
+      client = Ciql.configure {}
+      client.should_receive(:shutdown!)
       Ciql.configure {}
     end
   end

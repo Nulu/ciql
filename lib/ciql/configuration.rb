@@ -2,10 +2,13 @@ require 'ostruct'
 
 module Ciql
   @@client = nil
-  def self.client; @@client; end
+  def self.client
+    @@client.start! unless @@client.nil? or @@client.connected?
+    @@client
+  end
 
   def self.configure(&block)
-    @@client.shutdown! if @@client
+    @@client.shutdown! unless @@client.nil?
     yield (configuration = Configuration.new)
     @@client = Client.new(configuration.to_options)
   end
