@@ -7,12 +7,12 @@ task :release => :spec do
   $: << 'lib'
   require 'ciql/version'
 
-  project_name = 'ciql'
-  version_string = "v#{Ciql::VERSION}"
+  name = 'ciql'
+  version = "v#{Ciql::VERSION}"
   
-  unless %x(git tag -l).include?(version_string)
-    system %(git tag -a #{version_string} -m #{version_string})
+  unless %x(git tag -l).split("\n").include?(version)
+    system %(git tag -a #{version} -m #{version})
   end
 
-  system %(git push && git push --tags; gem build #{project_name}.gemspec && gem push #{project_name}-*.gem && mv #{project_name}-*.gem pkg)
+  system %(git push && git push --tags; gem build #{name}.gemspec && gem push #{name}-*.gem && mv #{name}-*.gem pkg)
 end

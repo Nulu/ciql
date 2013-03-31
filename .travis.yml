@@ -1,0 +1,7 @@
+language: ruby
+script: 'rspec spec/cql'
+bundler_args: --without development
+rvm:
+  - 1.9.3
+  - 2.0.0
+  - ruby-head
