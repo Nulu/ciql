@@ -23,7 +23,7 @@ module Ciql
       all = [host].concat(hosts).compact.reject(&:empty?)
       self.hosts = []
       self.host = all.join(',') unless all.empty?
-      self
+      self.marshal_dump.dup.tap { |hash| hash.delete(:hosts) }
     end
   end
 end

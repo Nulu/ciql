@@ -46,19 +46,9 @@ module Ciql
       end
     end
 
-    it 'calls #to_options on the Configuration after yielding' do
-      config = Ciql::Configuration.new
-      Ciql::Configuration.stub!(:new).and_return(config)
-      Ciql.configure do |c|
-        config.should_receive(:to_options).and_return(config)
-      end
-    end
-
     it 'uses the Configuration instance to initialize the Client' do
-      config = Ciql::Configuration.new
-      Ciql::Configuration.should_receive(:new).and_return(config)
-      Ciql::Client.should_receive(:new).with(config)
-      Ciql.configure {}
+      Ciql::Client.should_receive(:new).with({foo: 42})
+      Ciql.configure { |config| config.foo = 42 }
     end
 
     it 'shutdowns the current client, if present' do
@@ -69,11 +59,9 @@ module Ciql
   end
 
   describe Configuration do
-    it 'supports property access via #name, ["name"], and [:name]' do
+    it 'supports property access via #name' do
       subject.port = 5
       subject.port.should == 5
-      subject.port.should == subject['port']
-      subject.port.should == subject[:port]
     end
 
     it '#hosts is an array' do
@@ -82,34 +70,45 @@ module Ciql
     end
 
     describe '#to_options' do
+      it 'returns a Hash with the configured options as keys' do
+        subject.foo = 1
+        subject.bar = 'a'
+        subject.to_options.should == {foo: 1, bar: 'a'}
+      end
+
       it 'sets #host with comma-separated string of #hosts entries' do
         subject.hosts << 'local'
         subject.hosts << 'remote'
-        subject.to_options.host.should == 'local,remote'
+        subject.to_options[:host].should == 'local,remote'
       end
 
       it 'combines #host and #hosts into #host' do
         subject.host = 'primary'
         subject.hosts << 'secondary'
-        subject.to_options.host.should == 'primary,secondary'
+        subject.to_options[:host].should == 'primary,secondary'
+      end
+
+      it 'does not include an entry for :hosts' do
+        subject.to_options[:hosts].should be_nil
       end
 
       it 'clears #hosts' do
         subject.hosts << 'one'
-        subject.to_options.hosts.should be_empty
+        subject.to_options
+        subject.hosts.should be_empty
       end
 
       it 'ignores nil values and empty strings' do
         subject.hosts << nil
         subject.hosts << ''
         subject.hosts << 'server'
-        subject.to_options.host.should == 'server'
+        subject.to_options[:host].should == 'server'
       end
 
       it 'does not change #host if #hosts is empty' do
-        subject.to_options.host.should == nil
+        subject.to_options[:host].should == nil
         subject.host = 'local'
-        subject.to_options.host.should == 'local'
+        subject.to_options[:host].should == 'local'
       end
     end
   end
