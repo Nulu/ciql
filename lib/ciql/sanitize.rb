@@ -36,9 +36,10 @@ module Ciql
       when Enumerable
         obj.map { |member| cast(member) }.join(',')
 
-      when Numeric; obj
-      when Date;    quote(obj.strftime('%Y-%m-%d'))
-      when Time;    (obj.to_f * 1000).to_i
+      when Numeric;  obj
+      when DateTime; (obj.to_time.to_f * 1000).to_i
+      when Time;     (obj.to_f * 1000).to_i
+      when Date;     quote(obj.strftime('%Y-%m-%d'))
 
       when ::Cql::Uuid;        obj.to_s
       when ::SimpleUUID::UUID; obj.to_guid
