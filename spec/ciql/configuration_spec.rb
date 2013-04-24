@@ -23,14 +23,14 @@ module Ciql
 
     it 'starts the client when first requested' do
       client = Ciql.configure {}
-      client.should_receive(:start!)
+      client.should_receive(:connect)
       Ciql.client
     end
 
     it 'does not try to start the client on subsequent requests' do
       client = Ciql.configure {}
       Ciql.client
-      client.should_not_receive(:start!)
+      client.should_not_receive(:close)
       Ciql.client
     end
   end
@@ -53,7 +53,7 @@ module Ciql
 
     it 'shutdowns the current client, if present' do
       client = Ciql.configure {}
-      client.should_receive(:shutdown!)
+      client.should_receive(:close)
       Ciql.configure {}
     end
   end
