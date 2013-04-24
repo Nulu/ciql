@@ -2,13 +2,13 @@ PATH
   remote: .
   specs:
     ciql (0.1.0)
-      cql-rb (~> 1.0.0.pre4)
+      cql-rb (~> 1.0.0.pre5)
       simple_uuid (~> 0.3.0)
 
 GEM
   remote: https://rubygems.org/
   specs:
-    cql-rb (1.0.0.pre4)
+    cql-rb (1.0.0.pre5)
     diff-lcs (1.2.2)
     multi_json (1.7.2)
     rake (10.0.4)

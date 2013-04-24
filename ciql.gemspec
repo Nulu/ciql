@@ -18,7 +18,7 @@ Gem::Specification.new do |s|
   s.test_files    = Dir['spec/**/*.rb']
   s.require_paths = %w(lib)
 
-  s.add_dependency('cql-rb', '~> 1.0.0.pre4')
+  s.add_dependency('cql-rb', '~> 1.0.0.pre5')
   s.add_dependency('simple_uuid', '~> 0.3.0')
 
   s.platform = Gem::Platform::RUBY
