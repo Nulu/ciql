@@ -3,14 +3,16 @@ require 'ostruct'
 module Ciql
   @@client = nil
   def self.client
-    @@client.connect unless @@client.nil? or @@client.connected?
-    @@client
+    @@client ||= Client.connect(configuration.to_options)
+  end
+
+  @@configuration = nil
+  def self.configuration
+    @@configuration ||= Configuration.new
   end
 
   def self.configure(&block)
-    @@client.close unless @@client.nil?
-    yield (configuration = Configuration.new)
-    @@client = Client.new(configuration.to_options)
+    yield configuration
   end
 
   class Configuration < OpenStruct

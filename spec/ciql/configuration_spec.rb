@@ -2,59 +2,55 @@ require 'spec_helper'
 
 module Ciql
   describe '.client' do
-    after(:each) do
-      Ciql.class_variable_set(:@@client, nil)
-    end
-
     let(:reactor) { FakeReactor.new }
 
     before(:each) do
       Cql::Io::IoReactor.stub(:new).and_return(reactor)
     end
 
-    it 'defaults to nil' do
-      Ciql.client.should be_nil
+    after(:each) do
+      Ciql.class_variable_set(:@@client, nil)
+      Ciql.class_variable_set(:@@configuration, nil)
     end
 
-    it 'returns a client after it is configured' do
-      Ciql.configure {}
+    it 'returns a Client instance' do
       Ciql.client.should be_instance_of Ciql::Client
     end
 
-    it 'starts the client when first requested' do
-      client = Ciql.configure {}
-      client.should_receive(:connect)
+    it 'always returns the same Client instance' do
+      Ciql.client.should be Ciql.client
+    end
+
+    it 'creates the client with the configured options' do
+      Ciql.configure { |c| c.port = 1234 }
+      Ciql::Client.should_receive(:new).with(port: 1234).and_call_original
       Ciql.client
     end
 
-    it 'does not try to start the client on subsequent requests' do
-      client = Ciql.configure {}
-      Ciql.client
-      client.should_not_receive(:close)
-      Ciql.client
+    it 'connects the client' do
+      Ciql.client.should be_connected
+    end
+  end
+
+  describe '.configuration' do
+    after(:each) do
+      Ciql.class_variable_set(:@@configuration, nil)
+    end
+
+    it 'returns a Configuration instance' do
+      Ciql.configuration.should be_instance_of Ciql::Configuration
+    end
+
+    it 'always returns the same Configuration instance' do
+      Ciql.configuration.should be Ciql.configuration
     end
   end
 
   describe '.configure' do
-    after(:each) do
-      Ciql.class_variable_set(:@@client, nil)
-    end
-
-    it 'yields a Configuration instance' do
+    it 'yields the Configuration instance returned by .configuration' do
       Ciql.configure do |c|
-        c.should be_instance_of Ciql::Configuration
+        c.should be Ciql.configuration
       end
-    end
-
-    it 'uses the Configuration instance to initialize the Client' do
-      Ciql::Client.should_receive(:new).with({foo: 42})
-      Ciql.configure { |config| config.foo = 42 }
-    end
-
-    it 'shutdowns the current client, if present' do
-      client = Ciql.configure {}
-      client.should_receive(:close)
-      Ciql.configure {}
     end
   end
 
