@@ -4,6 +4,7 @@ require 'ciql'
 
 class FakeReactor
   def start
+    Cql::Future.completed([])
   end
 
   def add_connection(host, port)

@@ -14,7 +14,7 @@ module Ciql
     end
 
     it 'returns a Client instance' do
-      Ciql.client.should be_instance_of Ciql::Client
+      Ciql.client.should be_instance_of Ciql::Client::SynchronousClient
     end
 
     it 'always returns the same Client instance' do
@@ -23,7 +23,7 @@ module Ciql
 
     it 'creates the client with the configured options' do
       Ciql.configure { |c| c.port = 1234 }
-      Ciql::Client.should_receive(:new).with(port: 1234).and_call_original
+      Ciql::Client::AsynchronousClient.should_receive(:new).with(port: 1234).and_call_original
       Ciql.client
     end
 
