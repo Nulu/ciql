@@ -1,14 +1,21 @@
+GIT
+  remote: git://github.com/kreynolds/cassandra-cql.git
+  revision: 4d57295574a4ed6f7e73b2b84cccd79dbd1792da
+  specs:
+    cassandra-cql (1.1.5)
+      simple_uuid (>= 0.2.0)
+      thrift_client (>= 0.7.1, < 0.9)
+
 PATH
   remote: .
   specs:
     ciql (0.1.0)
-      cql-rb (>= 1.0.0.pre8)
-      simple_uuid (~> 0.3.0)
+      cassandra-cql
 
 GEM
   remote: https://rubygems.org/
   specs:
-    cql-rb (1.0.0.pre8)
+    cql-rb (1.0.0)
     diff-lcs (1.2.4)
     multi_json (1.7.6)
     rake (10.0.4)
@@ -25,12 +32,18 @@ GEM
       multi_json (~> 1.0)
       simplecov-html (~> 0.7.1)
     simplecov-html (0.7.1)
+    thrift (0.8.0)
+    thrift_client (0.8.4)
+      thrift (~> 0.8.0)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
+  cassandra-cql!
   ciql!
+  cql-rb (~> 1.0.0)
   rake
   rspec
+  simple_uuid (~> 0.3.0)
   simplecov

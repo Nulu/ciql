@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'ciql/client'
 
 module Ciql::Client
   describe AsynchronousClient do

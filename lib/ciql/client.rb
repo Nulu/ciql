@@ -1,3 +1,5 @@
+require 'ciql/sanitize'
+
 module Ciql
   module Client
     class AsynchronousClient < Cql::Client::AsynchronousClient

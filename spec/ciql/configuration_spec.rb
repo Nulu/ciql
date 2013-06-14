@@ -1,36 +1,36 @@
 require 'spec_helper'
 
 module Ciql
-  describe '.client' do
-    let(:reactor) { FakeReactor.new }
+  # describe '.client' do
+  #   let(:reactor) { FakeReactor.new }
 
-    before(:each) do
-      Cql::Io::IoReactor.stub(:new).and_return(reactor)
-    end
+  #   before(:each) do
+  #     Cql::Io::IoReactor.stub(:new).and_return(reactor)
+  #   end
 
-    after(:each) do
-      Ciql.class_variable_set(:@@client, nil)
-      Ciql.class_variable_set(:@@configuration, nil)
-    end
+  #   after(:each) do
+  #     Ciql.class_variable_set(:@@client, nil)
+  #     Ciql.class_variable_set(:@@configuration, nil)
+  #   end
 
-    it 'returns a Client instance' do
-      Ciql.client.should be_instance_of Ciql::Client::SynchronousClient
-    end
+  #   it 'returns a Client instance' do
+  #     Ciql.client.should be_instance_of Ciql::Client::SynchronousClient
+  #   end
 
-    it 'always returns the same Client instance' do
-      Ciql.client.should be Ciql.client
-    end
+  #   it 'always returns the same Client instance' do
+  #     Ciql.client.should be Ciql.client
+  #   end
 
-    it 'creates the client with the configured options' do
-      Ciql.configure { |c| c.port = 1234 }
-      Ciql::Client::AsynchronousClient.should_receive(:new).with(port: 1234).and_call_original
-      Ciql.client
-    end
+  #   it 'creates the client with the configured options' do
+  #     Ciql.configure { |c| c.port = 1234 }
+  #     Ciql::Client::AsynchronousClient.should_receive(:new).with(port: 1234).and_call_original
+  #     Ciql.client
+  #   end
 
-    it 'connects the client' do
-      Ciql.client.should be_connected
-    end
-  end
+  #   it 'connects the client' do
+  #     Ciql.client.should be_connected
+  #   end
+  # end
 
   describe '.configuration' do
     after(:each) do

@@ -1,4 +1,5 @@
 require 'simple_uuid'
+require 'cql'
 
 module Ciql
   module Sanitize
