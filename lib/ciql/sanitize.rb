@@ -29,19 +29,16 @@ module Ciql
     def self.cast(obj)
       case obj
       when Hash
-        obj.map do |key, value|
-          [cast(key), cast(value)].join(':')
-        end.join(',')
+        obj.map { |pair| pair.map(&method(:cast)).join(':') }.join(',')
 
       when Enumerable
         obj.map { |member| cast(member) }.join(',')
 
-      when Numeric;  obj
-      when DateTime; (obj.to_time.to_f * 1000).to_i
-      when Time;     (obj.to_f * 1000).to_i
-      when Date;     quote(obj.strftime('%Y-%m-%d'))
+      when Numeric        then obj
+      when DateTime, Time then obj.strftime('%s%3N').to_i
+      when Date           then quote(obj.strftime('%Y-%m-%d'))
 
-      when ::SimpleUUID::UUID; obj.to_guid
+      when ::SimpleUUID::UUID then obj.to_guid
 
       when String
         if obj.encoding == ::Encoding::BINARY
