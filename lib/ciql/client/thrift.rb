@@ -5,7 +5,7 @@ module Ciql::Client
   class Thrift < CassandraCQL::Database
     def initialize(options={})
       port = options.delete(:port) { 9160 }
-      hosts = options.delete(:host) { 'localhost' }.split(',')
+      hosts = options.delete(:host) { '127.0.0.1' }.split(',')
       hosts_with_port = hosts.map { |host| [host, port].join(':') }
       super(hosts_with_port, options)
     end
