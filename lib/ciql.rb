@@ -3,4 +3,5 @@ module Ciql
 end
 
 require 'ciql/configuration'
+require 'ciql/sanitize'
 require 'ciql/client/thrift'

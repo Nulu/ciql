@@ -12,7 +12,7 @@ module Ciql::Client
 
     def execute(statement, *arguments)
       bind_variables = arguments.shift statement.count('?')
-      bound_statement = CassandraCQL::Statement.sanitize(statement, bind_variables)
+      bound_statement = Ciql::Sanitize.sanitize(statement, *bind_variables)
       compression_type = CassandraCQL::Thrift::Compression::NONE
       consistency_level = CassandraCQL::Thrift::ConsistencyLevel.const_get(
         (arguments.shift or :quorum).to_s.upcase
