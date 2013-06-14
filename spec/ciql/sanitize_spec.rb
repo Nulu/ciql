@@ -61,12 +61,12 @@ module Ciql
       end
 
       it 'converts times' do
-        subject.sanitize('?', Time.new(2013, 3, 26, 23, 1, 2.544, 0))
+        subject.sanitize('?', Time.new(2013, 3, 26, 23, 1, 2.5449, 0))
           .should == 1364338862544.to_s
       end
 
       it 'converts DateTime instances as a time' do
-        subject.sanitize('?', DateTime.new(2013, 3, 26, 23, 1, 2.544, 0))
+        subject.sanitize('?', DateTime.new(2013, 3, 26, 23, 1, 2.5449, 0))
           .should == 1364338862544.to_s
       end
 
