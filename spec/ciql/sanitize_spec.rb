@@ -70,11 +70,6 @@ module Ciql
           .should == 1364338862544.to_s
       end
 
-      it 'converts Cql::Uuid to a bare string representation' do
-        subject.sanitize('?', Cql::Uuid.new(2**127 - 1))
-          .should == "7fffffff-ffff-ffff-ffff-ffffffffffff"
-      end
-
       it 'converts SimpleUUID::UUID to a bare string representation' do
         subject.sanitize('?', SimpleUUID::UUID.new(2**127 - 1))
           .should == "7fffffff-ffff-ffff-ffff-ffffffffffff"

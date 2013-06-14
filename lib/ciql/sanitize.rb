@@ -1,5 +1,4 @@
 require 'simple_uuid'
-require 'cql'
 
 module Ciql
   module Sanitize
@@ -42,7 +41,6 @@ module Ciql
       when Time;     (obj.to_f * 1000).to_i
       when Date;     quote(obj.strftime('%Y-%m-%d'))
 
-      when ::Cql::Uuid;        obj.to_s
       when ::SimpleUUID::UUID; obj.to_guid
 
       when String
