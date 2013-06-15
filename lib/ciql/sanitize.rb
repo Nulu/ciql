@@ -47,6 +47,9 @@ module Ciql
           quote obj.encode(::Encoding::UTF_8)
         end
 
+      when TrueClass, FalseClass
+        obj.to_s
+
       else
         quote obj.to_s.dup.force_encoding(::Encoding::BINARY)
       end

@@ -80,6 +80,14 @@ module Ciql
           .should == "0x01020304"
       end
 
+      it 'converts TrueClass instances to true, without quotes' do
+        subject.sanitize('?', [true]).should == 'true'
+      end
+
+      it 'converts FalseClass instances to false, without quotes' do
+        subject.sanitize('?', [false]).should == 'false'
+      end
+
       it 'joins elements of an array with a comma separator' do
         subject.sanitize('?', [1,2,3]).should == '1,2,3'
       end
