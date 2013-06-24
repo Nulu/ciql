@@ -6,6 +6,10 @@ module Ciql::Client
 
     subject { described_class.new(log: logger) }
 
+    before do
+      Ciql.logger = logger
+    end
+
     it 'inherits from CassandraCQL::Database' do
       subject.should be_kind_of CassandraCQL::Database
     end

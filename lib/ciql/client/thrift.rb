@@ -5,8 +5,8 @@ require 'benchmark'
 module Ciql::Client
   class Thrift < CassandraCQL::Database
     def initialize(options={})
-      @logger = options.delete(:log) || Logger.new($stdout)
-      @log_format = options.delete(:log_format) || DEFAULT_LOG_FORMAT
+      options = options.dup
+      @log_format = options.delete(:log_format) { DEFAULT_LOG_FORMAT }
 
       port = options.delete(:port) { 9160 }
       hosts = options.delete(:host) { '127.0.0.1' }.split(',')
@@ -47,8 +47,8 @@ module Ciql::Client
     DEFAULT_LOG_FORMAT = '  CQL (%<duration>.3fms)  %{query} (%{consistency})'.freeze
 
     def log(message)
-      return unless @logger.debug?
-      @logger.debug(@log_format % message)
+      return unless Ciql.logger.debug?
+      Ciql.logger.debug(@log_format % message)
     end
   end
 end
