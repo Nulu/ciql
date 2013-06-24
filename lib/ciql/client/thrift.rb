@@ -44,7 +44,7 @@ module Ciql::Client
     end
 
   private
-    DEFAULT_LOG_FORMAT = '   CQL (%<duration>.3fms)  %{query} (%{consistency})'.freeze
+    DEFAULT_LOG_FORMAT = '  CQL (%<duration>.3fms)  %{query} (%{consistency})'.freeze
 
     def log(message)
       return unless @logger.debug?
