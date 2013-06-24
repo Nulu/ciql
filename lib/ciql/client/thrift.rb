@@ -44,7 +44,8 @@ module Ciql::Client
       result
 
     rescue CassandraCQL::Thrift::InvalidRequestException
-      raise CassandraCQL::Error::InvalidRequestException.new($!.why)
+      message = [$!.why, bound_statement].join(' -- ')
+      raise CassandraCQL::Error::InvalidRequestException.new(message)
     end
   end
 end
