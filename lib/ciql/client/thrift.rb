@@ -18,7 +18,7 @@ module Ciql::Client
       bind_variables = arguments.shift statement.count('?')
       bound_statement = Ciql::Sanitize.sanitize(statement, *bind_variables)
       compression_type = CassandraCQL::Thrift::Compression::NONE
-      consistency_level = (arguments.shift or :local_quorum).to_s.upcase
+      consistency_level = (arguments.shift or :quorum).to_s.upcase
 
       result = nil
       times = Benchmark.measure do
