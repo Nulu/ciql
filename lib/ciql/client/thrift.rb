@@ -2,11 +2,15 @@ require 'cassandra-cql/1.2'
 require 'cassandra-cql'
 require 'benchmark'
 
+require 'ciql/client/log'
+
 module Ciql::Client
   class Thrift < CassandraCQL::Database
+    include Log
+
     def initialize(options={})
       options = options.dup
-      @log_format = options.delete(:log_format) { DEFAULT_LOG_FORMAT }
+      @log_format = options.delete(:log_format)
 
       port = options.delete(:port) { 9160 }
       hosts = options.delete(:host) { '127.0.0.1' }.split(',')
@@ -41,14 +45,6 @@ module Ciql::Client
 
     rescue CassandraCQL::Thrift::InvalidRequestException
       raise CassandraCQL::Error::InvalidRequestException.new($!.why)
-    end
-
-  private
-    DEFAULT_LOG_FORMAT = '  CQL (%<duration>.3fms)  %{query} (%{consistency})'.freeze
-
-    def log(message)
-      return unless Ciql.logger.debug?
-      Ciql.logger.debug(@log_format % message)
     end
   end
 end

@@ -13,3 +13,4 @@ end
 require 'ciql/configuration'
 require 'ciql/sanitize'
 require 'ciql/client/thrift'
+require 'ciql/rails' if defined?(Rails)

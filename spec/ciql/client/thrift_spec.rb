@@ -17,7 +17,7 @@ module Ciql::Client
     describe '#execute' do
       it 'logs the query' do
         subject # instantiate
-        logger.should_receive(:debug).with(/system.local where key = 'local' \(ONE\)/)
+        logger.should_receive(:debug).with(/system.local where key = 'local' \[ONE\]/)
         subject.execute('select * from system.local where key = ?', :local, :one)
       end
     end
