@@ -34,6 +34,7 @@ module Ciql
       when Enumerable
         obj.map { |member| cast(member) }.join(',')
 
+      when NilClass       then 'NULL'
       when Numeric        then obj
       when DateTime, Time then obj.strftime('%s%3N').to_i
       when Date           then quote(obj.strftime('%Y-%m-%d'))

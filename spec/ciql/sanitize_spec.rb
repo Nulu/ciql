@@ -47,6 +47,10 @@ module Ciql
         subject.sanitize('? ?', 1, 2.1).should == '1 2.1'
       end
 
+      it 'converts nil to NULL' do
+        subject.sanitize('?', nil).should == 'NULL'
+      end
+
       it 'quotes strings' do
         subject.sanitize('?', 'string').should == "'string'"
       end
