@@ -14,6 +14,15 @@ module Ciql::Client
       subject.should be_kind_of CassandraCQL::Database
     end
 
+    it 'defaults to two retries on connection exceptions' do
+      subject.instance_variable_get(:@thrift_client_options)[:retries].should eq 2
+    end
+
+    it 'accepts :retries as an option' do
+      instance = described_class.new(log: logger, retries: 5)
+      instance.instance_variable_get(:@thrift_client_options)[:retries].should eq 5
+    end
+
     describe '#execute' do
       it 'logs the query' do
         subject # instantiate

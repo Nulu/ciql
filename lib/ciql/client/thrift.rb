@@ -15,7 +15,8 @@ module Ciql::Client
       port = options.delete(:port) { 9160 }
       hosts = options.delete(:host) { '127.0.0.1' }.split(',')
       hosts_with_port = hosts.map { |host| [host, port].join(':') }
-      super(hosts_with_port, options)
+      retries = options.delete(:retries) { 2 }
+      super(hosts_with_port, options, retries: retries)
     end
 
     def execute(statement, *arguments)
