@@ -8,21 +8,23 @@ module Ciql::Client
   class Thrift < CassandraCQL::Database
     include Log
 
+    attr_reader :connection
+
     def initialize(options={})
-      options = options.dup
+      options     = options.dup
       @log_format = options.delete(:log_format)
 
-      port = options.delete(:port) { 9160 }
-      hosts = options.delete(:host) { '127.0.0.1' }.split(',')
-      hosts_with_port = hosts.map { |host| [host, port].join(':') }
       retries = options.delete(:retries) { 2 }
+      port    = options.delete(:port) { 9160 }
+      hosts   = options.delete(:host) { '127.0.0.1' }.split(',')
+      hosts_with_port = hosts.map { |host| [host, port].join(':') }
       super(hosts_with_port, options, retries: retries)
     end
 
     def execute(statement, *arguments)
-      bind_variables = arguments.shift statement.count('?')
-      bound_statement = Ciql::Sanitize.sanitize(statement, *bind_variables)
-      compression_type = CassandraCQL::Thrift::Compression::NONE
+      bind_variables    = arguments.shift statement.count('?')
+      bound_statement   = Ciql::Sanitize.sanitize(statement, *bind_variables)
+      compression_type  = CassandraCQL::Thrift::Compression::NONE
       consistency_level = (arguments.shift or :quorum).to_s.upcase
 
       result = nil

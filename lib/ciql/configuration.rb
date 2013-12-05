@@ -3,7 +3,7 @@ require 'ostruct'
 module Ciql
   @@client = nil
   def self.client
-    @@client ||= Client::Thrift.new(configuration.to_options)
+    @@client ||= Client::Binary.new(configuration.to_options)
   end
 
   @@configuration = nil
