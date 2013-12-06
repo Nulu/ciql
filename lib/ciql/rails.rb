@@ -17,5 +17,5 @@ module Ciql
     end
   end
 
-  Client::Thrift.send(:include, LogListener)
+  Client::Binary.send(:include, LogListener)
 end

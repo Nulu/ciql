@@ -1,3 +1,5 @@
+require 'logger'
+
 module Ciql
   Error = Class.new(StandardError)
 
