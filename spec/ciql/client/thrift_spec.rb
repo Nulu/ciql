@@ -3,7 +3,7 @@ require 'ciql/client/thrift'
 
 module Ciql::Client
   describe Thrift do
-    let(:logger) { mock(:debug? => true, debug: nil) }
+    let(:logger) { double(:debug? => true, debug: nil) }
 
     subject { described_class.new(log: logger) }
 

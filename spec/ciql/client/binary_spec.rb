@@ -3,7 +3,7 @@ require 'spec_helper'
 module Ciql::Client
   describe Binary do
     let(:logger) do
-      mock(:debug? => true, debug: nil, info: nil, warn: nil)
+      double(:debug? => true, debug: nil, info: nil, warn: nil)
     end
 
     subject { described_class.new(log: logger) }
