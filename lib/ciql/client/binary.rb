@@ -7,16 +7,17 @@ module Ciql::Client
   class Binary
     include Log
 
-    attr_reader :connection
-
     def initialize(options={})
-      options     = options.dup
-      @log_format = options.delete(:log_format)
+      @options = {
+        logger:               Ciql.logger,
+        connections_per_node: 2,
+      }.merge(options)
+      @log_format = @options.delete(:log_format)
+      @options[:hosts] = @options.delete(:host) { '127.0.0.1' }.split(',')
+    end
 
-      options[:hosts]  = options.delete(:host) { '127.0.0.1' }.split(',')
-      options[:logger] = Ciql.logger
-
-      @connection = Cql::Client.connect(options)
+    def connection
+      @connection ||= Cql::Client.connect(@options)
     end
 
     def execute(statement, *arguments)
@@ -26,7 +27,7 @@ module Ciql::Client
 
       result = nil
       times = Benchmark.measure do
-        result = @connection.execute(
+        result = connection.execute(
           bound_statement,
           consistency: consistency_level
         )
@@ -42,7 +43,7 @@ module Ciql::Client
     end
 
     def disconnect!
-      @connection.close
+      connection.close
     end
   end
 end
