@@ -19,9 +19,9 @@ Gem::Specification.new do |s|
   s.require_paths = %w(lib)
 
   s.add_dependency('cql-rb', '~> 1.1.1')
+  s.add_dependency('simple_uuid', '~> 0.3.0')
 
   s.add_development_dependency('cassandra-cql', '~> 1.2.1')
-  s.add_development_dependency('simple_uuid', '~> 0.3.0')
 
   s.platform = Gem::Platform::RUBY
   s.required_ruby_version = '>= 1.9.2'
