@@ -1,4 +1,5 @@
 require 'simple_uuid'
+require 'set'
 
 module Ciql
   module Sanitize
@@ -29,10 +30,13 @@ module Ciql
     def self.cast(obj)
       case obj
       when Hash
-        obj.map { |pair| pair.map(&method(:cast)).join(':') }.join(',')
+        "{#{obj.map { |pair| pair.map(&method(:cast)).join(':') }.join(',')}}"
+
+      when Set
+        "{#{obj.map { |member| cast(member) }.join(',')}}"
 
       when Enumerable
-        obj.map { |member| cast(member) }.join(',')
+        "[#{obj.map { |member| cast(member) }.join(',')}]"
 
       when NilClass       then 'NULL'
       when Numeric        then obj

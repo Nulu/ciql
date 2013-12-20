@@ -85,19 +85,24 @@ module Ciql
       end
 
       it 'converts TrueClass instances to true, without quotes' do
-        subject.sanitize('?', [true]).should == 'true'
+        subject.sanitize('?', true).should == 'true'
       end
 
       it 'converts FalseClass instances to false, without quotes' do
-        subject.sanitize('?', [false]).should == 'false'
+        subject.sanitize('?', false).should == 'false'
       end
 
-      it 'joins elements of an array with a comma separator' do
-        subject.sanitize('?', [1,2,3]).should == '1,2,3'
+      it 'joins casted elements of an array with a comma separator wrapped in []' do
+        subject.sanitize('?', [1,true,Time.at(0).to_date])
+          .should == "[1,true,'1969-12-31']"
       end
 
-      it 'joins key/value pairs of a hash with colon and comma separators' do
-        subject.sanitize('?', {a: 1, b: 'z'}).should == "'a':1,'b':'z'"
+      it 'joins casted elements of a set with a comma separator wrapped in {}' do
+        subject.sanitize('?', [1,nil,'a'].to_set).should == "{1,NULL,'a'}"
+      end
+
+      it 'joins casted key/value pairs of a hash with colon and comma separators wrapped in {}' do
+        subject.sanitize('?', {a: 1, b: 'z'}).should == "{'a':1,'b':'z'}"
       end
     end
   end
