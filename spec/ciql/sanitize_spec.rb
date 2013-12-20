@@ -93,8 +93,8 @@ module Ciql
       end
 
       it 'joins casted elements of an array with a comma separator wrapped in []' do
-        subject.sanitize('?', [1,true,Time.at(0).to_date])
-          .should == "[1,true,'1969-12-31']"
+        subject.sanitize('?', [1,true,Time.at(0).utc.to_date])
+          .should == "[1,true,'1970-01-01']"
       end
 
       it 'joins casted elements of a set with a comma separator wrapped in {}' do
