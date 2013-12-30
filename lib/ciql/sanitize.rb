@@ -40,7 +40,7 @@ module Ciql
 
       when NilClass       then 'NULL'
       when Numeric        then obj
-      when DateTime, Time then obj.strftime('%s%3N').to_i
+      when DateTime, Time then (obj.to_time.to_f * 1000).to_i
       when Date           then quote(obj.strftime('%Y-%m-%d'))
 
       when ::SimpleUUID::UUID then obj.to_guid

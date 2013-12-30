@@ -74,6 +74,20 @@ module Ciql
           .should == 1364338862123.to_s
       end
 
+      context 'converting a Time to milliseconds' do
+        it 'correctly handles floating point rounding' do
+          subject.sanitize('?', Time.at(1388442849.643))
+            .should == 1388442849643.to_s
+        end
+      end
+
+      context 'converting a DateTime to milliseconds' do
+        it 'correctly handles floating point rounding' do
+          subject.sanitize('?', Time.at(1388442849.643).to_datetime)
+            .should == 1388442849643.to_s
+        end
+      end
+
       it 'converts SimpleUUID::UUID to a bare string representation' do
         subject.sanitize('?', SimpleUUID::UUID.new(2**127 - 1))
           .should == "7fffffff-ffff-ffff-ffff-ffffffffffff"
