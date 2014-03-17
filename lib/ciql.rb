@@ -14,5 +14,6 @@ end
 
 require 'ciql/configuration'
 require 'ciql/sanitize'
+require 'ciql/uuid'
 require 'ciql/client/binary'
 require 'ciql/rails' if defined?(Rails)
